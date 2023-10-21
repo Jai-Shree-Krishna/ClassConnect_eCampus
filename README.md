@@ -1,16 +1,29 @@
-# classroom_project_testing
+# ClassConnect (E-Campus)
 
-A new Flutter project.
+## Description
 
-## Getting Started
+##### This project aims to provide the better communication between Profesors and Students. 
+##### This project tends to behave like Google-Classroom-Clone with more flexibility for students to upload material / announcement.
 
-This project is a starting point for a Flutter application.
+## Functionality
+- ### Auth
+  ##### Register by user's email and password 
+  ##### Login by user's email and password
+  ##### Sign out
+- ### Classroom functionalities
+  ##### Create classroom
+  ##### Enroll / Join in classroom
+  ##### Unenroll from classroom
+- ### For a classroom
+  #### Create announcement to class
+  ##### Upload materials to class.
+  ##### Assign a assignment to class.
+  ##### View all people of class.
+  ##### View all material and assignments of class.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- ##### Upcoming
+  ###### Notification on activity in class , e.g. new material / announcement by / assignment,etc.
+  ###### Email verification, password reset, profile page.
+  ###### Some more useful and interesting things.
+  
