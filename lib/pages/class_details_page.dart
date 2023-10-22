@@ -101,14 +101,30 @@ class ClassSection extends StatelessWidget {
       ),
     );
   }
-
 }
+
 class StreamSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
-
+        _buildAnnouncementCard(
+          'Important Announcement',
+          'There will be a quiz on Monday. Be prepared!',
+        ),
+        _buildAssignmentCard(
+          'Assignment 1',
+          'Complete the exercises on pages 10-15.',
+        ),
+        _buildMaterialCard(
+          'Study Materials',
+          'Download the PDF notes for this week.',
+        ),
+        _buildPDFCard(
+          'Sample PDF',
+          'Sample PDF Document',
+          'https://example.com/sample.pdf', // Replace with the actual PDF URL
+        ),
       ],
     );
   }
