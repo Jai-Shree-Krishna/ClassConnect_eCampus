@@ -10,7 +10,7 @@ import '../models/announcement.dart';
 class ClassDetailsPage extends StatefulWidget {
   late final Class currentClass;
 
-  ClassDetailsPage({required this.currentClass});
+  ClassDetailsPage({required this.currentClass     });
 
   @override
   _ClassDetailsPageState createState() => _ClassDetailsPageState();
