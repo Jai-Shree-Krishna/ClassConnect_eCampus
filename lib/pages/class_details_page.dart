@@ -10,6 +10,7 @@ import '../auth.dart';
 import '../models/class.dart';
 import '../models/announcement.dart';
 import 'new_announcement.dart';
+import 'new_material.dart';
 
 
 class ClassDetailsPage extends StatefulWidget {
@@ -68,7 +69,10 @@ class _ClassDetailsPageState extends State<ClassDetailsPage> {
                 value: 2,
                 child: ElevatedButton(
                   onPressed: () {
-
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MaterialSharingWidget(classId: widget.currentClass.className)),
+                    );
                   },
                   child: Text('New Material'),
                 ),
@@ -128,13 +132,7 @@ class ClassSection extends StatelessWidget {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
   FlutterLocalNotificationsPlugin();
 
-  ClassSection({required this.title}) {
-    // Initialize the notification plugin when the ClassSection is created.
-    var androidInitialize = AndroidInitializationSettings('app_icon');
-    var initializationSettings =
-    InitializationSettings(android: androidInitialize);
-    flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  }
+  ClassSection({required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -222,7 +220,7 @@ class StreamSection extends StatelessWidget {
                 child: Icon(Icons.person),
               ), // Replace PhotoWidget with your widget
               title: Text(text ?? "no title"),
-              subtitle: Text('Timestamp: $timestamp'),
+              subtitle: Text(body ?? "no body"),
               trailing: (currentUser != null && currentUser?.email == createdBy)
                   ? Row(
                 mainAxisSize: MainAxisSize.min,
