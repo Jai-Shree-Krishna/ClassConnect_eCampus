@@ -41,6 +41,7 @@ dependencies:
   cloud_firestore:
   file_picker:
   open_file:
+  flutter_local_notifications:
 
 
 dev_dependencies:
