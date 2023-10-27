@@ -96,7 +96,7 @@ class _ClassDetailsPageState extends State<ClassDetailsPage> {
         children: [
           StreamSection(className: widget.currentClass.className),
           ClassSection(title: 'Classwork'),
-          PeopleSection(),
+          PeopleSection(classId: widget.currentClass.className),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -340,50 +340,58 @@ class StreamSection extends StatelessWidget {
 
 
 class PeopleSection extends StatefulWidget {
-  const PeopleSection({super.key});
+  final String classId;
+
+  PeopleSection({required this.classId});
 
   @override
   State<PeopleSection> createState() => _PeopleSectionState();
 }
 
 class _PeopleSectionState extends State<PeopleSection> {
-
-  @override
-  void initState() {
-    // TODO: implement initState
-
-  }
+  final User? currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        _buildTeacherRow('Teacher 1', 'teacher1@example.com'),
-        _buildTeacherRow('Teacher 2', 'teacher2@example.com'),
-        _buildTeacherRow('Teacher 3', 'teacher3@example.com'),
-        _buildClassmatesRow('Classmate 1', 'classmate1@example.com'),
-        _buildClassmatesRow('Classmate 2', 'classmate2@example.com'),
-        _buildClassmatesRow('Classmate 3', 'classmate3@example.com'),
-        _buildClassmatesRow('Classmate 4', 'classmate4@example.com'),
-        _buildClassmatesRow('Classmate 5', 'classmate5@example.com'),
-      ],
-    );
-  }
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection('User').snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        }
+        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+          return Text('No users available');
+        }
 
-  Widget _buildTeacherRow(String teacherName, String email) {
-    return ListTile(
-      leading: CircleAvatar(
-        backgroundColor: Colors.blue,
-        child: Icon(Icons.person),
-      ),
-      title: Text(teacherName),
-      subtitle: Row(
-        children: [
-          Icon(Icons.email),
-          SizedBox(width: 4.0),
-          Text(email),
-        ],
-      ),
+        List<DocumentSnapshot> users = snapshot.data!.docs;
+        List<Widget> userWidgets = [];
+
+        for (var userSnapshot in users) {
+          var userData = userSnapshot.data() as Map<String, dynamic>;
+          var userId = userSnapshot.id;
+          var enrolledClasses = (userData['enrolledCLasses'] ?? []) as List<dynamic>;
+
+          // Check if the user is enrolled in the specified class
+          if (enrolledClasses.contains(widget.classId)) {
+            var userName = userData['name'];
+            var userEmail = userData['email'];
+
+            print(userName ?? "no name");
+            print(userEmail ?? "no email");
+
+            if (userId != currentUser?.uid) {
+              // Exclude the current user from the list
+              userWidgets.add(
+                _buildClassmatesRow(userName ?? userEmail, userEmail ?? "no email"),
+              );
+            }
+          }
+        }
+
+        return ListView(
+          children: userWidgets,
+        );
+      },
     );
   }
 
@@ -404,8 +412,15 @@ class _PeopleSectionState extends State<PeopleSection> {
     );
   }
 }
-
-
+//
+// _buildTeacherRow('Teacher 1', 'teacher1@example.com'),
+// _buildTeacherRow('Teacher 2', 'teacher2@example.com'),
+// _buildTeacherRow('Teacher 3', 'teacher3@example.com'),
+// _buildClassmatesRow('Classmate 1', 'classmate1@example.com'),
+// _buildClassmatesRow('Classmate 2', 'classmate2@example.com'),
+// _buildClassmatesRow('Classmate 3', 'classmate3@example.com'),
+// _buildClassmatesRow('Classmate 4', 'classmate4@example.com'),
+// _buildClassmatesRow('Classmate 5', 'classmate5@example.com'),
 
 // class PeopleSection extends StatelessWidget {
 //   @override
